@@ -22,7 +22,6 @@ describe('test dice function which use dice-coefficient algorithm', () => {
     expect(dice('hello', 'hallo')).toBe(0.4)
     expect(dice('ab', 'ac')).toBe(0)
     expect(dice('ab', 'a')).toBe(0)
-    expect(dice('abc', 'ab')).toBe(0.4)
     expect(dice('🔥', '🔥')).toBe(1)
   })
 })
@@ -33,7 +32,7 @@ describe(`test didyoumean3 with didyoumean's case`, () => {
   let list = ['facebook', 'twitter', 'instagram', 'linkedin'];
   
   it('Matching against a list of strings', () => {
-    expect(didyoumean3(input, list)).toBe('instagram')
+    expect(didyoumean3(input, list)?.first).toBe('instagram')
   })
 
   it('shoule match nothing', () => {
