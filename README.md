@@ -84,6 +84,13 @@ export type Options = {
 
 ## benchmark
 
+```js
+didyoumean x 193,411 ops/sec ±1.39% (87 runs sampled)
+didyoumean2 x 303,996 ops/sec ±1.72% (82 runs sampled)
+didyoumean3-leven x 489,616 ops/sec ±0.76% (89 runs sampled)
+didyoumean3-dice x 130,456 ops/sec ±0.57% (91 runs sampled)
+Fastest is didyoumean3-leven
+```
 
 ## changelog
 
@@ -101,13 +108,5 @@ nobody now.
 > Both issure and pr are welcome!
 
 ## license
-
-```js
-didyoumean x 193,411 ops/sec ±1.39% (87 runs sampled)
-didyoumean2 x 303,996 ops/sec ±1.72% (82 runs sampled)
-didyoumean3-leven x 489,616 ops/sec ±0.76% (89 runs sampled)
-didyoumean3-dice x 130,456 ops/sec ±0.57% (91 runs sampled)
-Fastest is didyoumean3-leven
-```
 
 [MIT](./LICENSE)
