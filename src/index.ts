@@ -1,116 +1,63 @@
-export interface GetVal {
-  (x: any): string
-}
+import {
+  normalize,
+  similarFactory,
+  resultFactory,
+  compareFactory,
+  getVal,
+  Options,
+  BuiltInSimilar,
+} from './util';
 
-export type Options = {
-  ignore?: boolean,
-  trim?: boolean,
-  normalize?: boolean,
-  key?: string | GetVal
-}
+import { dice } from './lib/dice';
+import { leven } from './lib/leven';
 
-export type Matched = {
-  score: number,
-  target: string | object
-}
-
-export type Return = {
-  matches: ReadonlyArray<Matched>,
-  first: string | object | null
-}
-
-const defaultOptions: Partial<Options> = {
+const defaultOpts: Partial<Options> = {
   ignore: false,
   trim: true,
-  normalize: false
-}
+  trimAll: false,
+  diacritics: false,
+};
 
-const normalize = (input: string, opt: Options): string => {
-  let s: string = input
+const didyoumean3 = <T extends string | object>(
+  s: string,
+  t: ReadonlyArray<T>,
+  opts?: Options
+): any => {
+  const { val, similar = 'leven', result, compartor, ...cfg } = {
+    ...defaultOpts,
+    ...opts,
+  };
+  s = normalize(s, cfg);
+  const res = resultFactory(result);
 
-  if (opt.ignore) s = s.toLowerCase()
-  if (opt.trim) s = s.trim().replace(/\s+/g, ' ')
+  if (!s) return res(null);
 
-  // handle diacritics, such as 'café'
-  if (opt.normalize) s = s.normalize()
+  const calc = similarFactory(similar);
+  const compare = compareFactory(compartor, similar as BuiltInSimilar);
+  const matches = [];
+  let winner: any = null;
+  let temp: number | null = null;
 
-  return s
-}
+  for (let i = 0, len = t.length; i < len; i++) {
+    const target = t[i];
+    const score = calc(s, normalize(getVal(target, val), cfg));
 
-// dice-coefficient
-export const dice = (left: string, right: string, opts: Partial<Options> = {}): number => {
-  right = normalize(right, opts)
-  let l = [...left]
-  let r = [...right]
-  let lenl = l.length
-  let lenr = r.length
+    // TODO: condition?
+    matches.push({ score, target });
 
-  if (!lenr) return 0
-  if (left === right) return 1
-  if (lenl < 2) l.unshift('*')
-  if (lenr < 2) r.unshift('*')
-
-  let intersections = 0
-  let idxl = -1
-  let map = new Map()
-  while(++idxl < lenl - 1) {
-    const bigram = l.slice(idxl, idxl + 2).join('')
-    const count = map.has(bigram)
-      ? map.get(bigram) + 1
-      : 1
-    map.set(bigram, count)
-  }
-
-  let idxr = -1
-  while(++idxr < lenr - 1) {
-    const bigram = r.slice(idxr, idxr + 2).join('')
-    const count = map.has(bigram)
-      ? map.get(bigram)
-      : 0
-    if (count > 0) {
-      intersections++
-      map.set(bigram, count - 1)
+    // May be the highest score or the lowest score
+    if (temp === null || compare(score, temp)) {
+      temp = score;
+      winner = target;
     }
   }
 
-  return (2.0 * intersections) / (lenl + lenr) 
-}
+  return res({ matches, winner });
+};
 
-const val = <T extends string | object>(v: T, k?: string | GetVal): string => {
-  return typeof v === 'string'
-    ? v
-    : typeof k === 'function'
-      ? k(v as T)
-      : (v as any)[k || '']
-}
+didyoumean3.dice = dice;
+didyoumean3.leven = leven;
 
-export const didyoumean3 = <T extends string | object>(input: string, list: ReadonlyArray<T>, opts: Options = {}): Return | null => {
-  const {key, ...rest} = {...defaultOptions, ...opts}
+export { didyoumean3 };
 
-  input = normalize(input, rest)
-  if (!input) return null
-
-  const len = list.length
-  let matches = []
-  let idx = -1
-  let max = 0
-  let closest = -1
-  let first = null
-
-  while(++idx < len) {
-    const target = list[idx]
-    const score = dice(input, val(target, key), rest)
-    matches.push({ score, target })
-    if (score > max) {
-      closest = idx
-      max = score
-    }
-  }
-
-  !!~closest && (first = list[closest])
-
-  return { matches, first }
-}
-
-export default didyoumean3
-
+export default didyoumean3;

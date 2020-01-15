@@ -1,115 +1,144 @@
-import { didyoumean3, dice } from '../src';
+import { didyoumean3 } from '../src';
+import { Val } from '../src/util';
 
-let input = 'abcdefg'
+let input = 'insargrm';
 let list = [
-  'abc*******',
-  'abcd******',
-  'abcde*****',
-  'ABCDEF****',
-  'abcde*g***',
-  'abcdef****'
-]
+  'facebook',
+  'INSTAgram',
+  ' in stagram',
+  'baidu',
+  'twitter',
+  'wechat',
+  'instagram',
+  'linkedin',
+];
 
-describe('test dice function which use dice-coefficient algorithm', () => {
-  it('withoud options', () => {
-    expect(dice('abc', 'abc')).toBe(1)
-    expect(dice('ab', 'ab')).toBe(1)
-    expect(dice('a', 'a')).toBe(1)
-    expect(dice('a', 'A')).toBe(0)
-    expect(dice('abc', 'xy')).toBe(0)
-    expect(dice('abc', '')).toBe(0)
-    expect(dice('abc', 'abd')).toBe(0.3333333333333333)
-    expect(dice('hello', 'hallo')).toBe(0.4)
-    expect(dice('ab', 'ac')).toBe(0)
-    expect(dice('ab', 'a')).toBe(0)
-    expect(dice('🔥', '🔥')).toBe(1)
-  })
-})
+describe('matching against a list of strings', () => {
+  it('use leven as default', () => {
+    expect(didyoumean3(input, list)?.winner).toBe('instagram');
+  });
 
-// some test case from didyoumean
-describe(`test didyoumean3 with didyoumean's case`, () => {
-  let input = 'insargrm'
-  let list = ['facebook', 'twitter', 'instagram', 'linkedin'];
-  
-  it('Matching against a list of strings', () => {
-    expect(didyoumean3(input, list)?.first).toBe('instagram')
-  })
+  it('use dice-coefficient', () => {
+    expect(didyoumean3(input, list, { similar: 'dice' })?.winner).toBe(
+      'instagram'
+    );
+  });
 
-  it('shoule match nothing', () => {
-    expect(didyoumean3('baidu plus', list)?.first).toBe(null)
-  })
+  it('use leven as default with ignore = true', () => {
+    expect(didyoumean3(input, list, { ignore: true })?.winner).toBe(
+      'INSTAgram'
+    );
+  });
 
-  it('Matching against a list of objects', () => {
-    let input = 'insargrm';
-    let list = [ { id: 'facebook' }, { id: 'twitter' }, { id: 'instagram' }, { id: 'linkedin' } ];
-    let key = 'id';
-    expect(didyoumean3(input, list, {key})?.first).toEqual({ id: 'instagram' })
-  })
-})
+  it('use dice-coefficient with ignore = true', () => {
+    expect(
+      didyoumean3(input, list, { similar: 'dice', ignore: true })?.winner
+    ).toBe('INSTAgram');
+  });
 
-// some test case from didyoumean2
-describe('test didyoumean3 without emoji or diacritics', () => {
-  it('without options', () => {
-    expect(didyoumean3(input, list)).toEqual({
-      first: 'abcdef****',
+  it('use leven as default with trimAll = true', () => {
+    expect(didyoumean3(input, list, { trimAll: true })?.winner).toBe(
+      ' in stagram'
+    );
+  });
+
+  it('use dice-coefficient with trimAll = true', () => {
+    expect(
+      didyoumean3(input, list, { similar: 'dice', trimAll: true })?.winner
+    ).toBe(' in stagram');
+  });
+});
+
+let l = [
+  { id: 'facebook' },
+  { id: 'baidu' },
+  { id: 'twitter' },
+  { id: 'INSTAgram' },
+  { id: ' in stagram' },
+  { id: 'wechat' },
+  { id: 'instagram' },
+  { id: 'linkedin' },
+];
+
+describe('matching against a list of object', () => {
+  const val: Val = (item: any) => item!.id;
+
+  it('use leven as default', () => {
+    expect(didyoumean3(input, l, { val })?.winner).toEqual({ id: 'instagram' });
+  });
+
+  it('use dice-coefficient', () => {
+    expect(didyoumean3(input, l, { similar: 'dice', val })?.winner).toEqual({
+      id: 'instagram',
+    });
+  });
+
+  it('use leven as default with ignore = true', () => {
+    expect(didyoumean3(input, l, { ignore: true, val })?.winner).toEqual({
+      id: 'INSTAgram',
+    });
+  });
+
+  it('use dice-coefficient with ignore = true', () => {
+    expect(
+      didyoumean3(input, l, { similar: 'dice', ignore: true, val })?.winner
+    ).toEqual({ id: 'INSTAgram' });
+  });
+
+  it('use leven as default with trimAll = true', () => {
+    expect(didyoumean3(input, l, { trimAll: true, val })?.winner).toEqual({
+      id: ' in stagram',
+    });
+  });
+
+  it('use dice-coefficient with trimAll = true', () => {
+    expect(
+      didyoumean3(input, l, { similar: 'dice', trimAll: true, val })?.winner
+    ).toEqual({ id: ' in stagram' });
+  });
+});
+
+let i2 = 'insargrm';
+let l2 = ['facebook', 'instagram', 'linkedin'];
+
+describe('test output when matching against a list of strings', () => {
+  it('use levem as default', () => {
+    expect(didyoumean3(i2, l2)).toEqual({
+      winner: 'instagram',
       matches: [
         {
-          "score": 0.23529411764705882,
-          "target": "abc*******",
+          score: 8,
+          target: 'facebook',
         },
         {
-          "score": 0.35294117647058826,
-          "target": "abcd******",
+          score: 3,
+          target: 'instagram',
         },
         {
-          "score": 0.47058823529411764,
-          "target": "abcde*****",
+          score: 7,
+          target: 'linkedin',
         },
-        {
-          "score": 0,
-          "target": "ABCDEF****",
-        },
-        {
-          "score": 0.47058823529411764,
-          "target": "abcde*g***",
-        },
-        {
-          "score": 0.5882352941176471,
-          "target": "abcdef****",
-        }
-      ]
-    })
-  })
+      ],
+    });
+  });
 
-  it('with options', () => {
-    expect(didyoumean3(input, list, {ignore: true, trim: true})).toEqual({
-      first: 'ABCDEF****',
+  it('use dice-coefficient', () => {
+    expect(didyoumean3(i2, l2, { similar: 'dice' })).toEqual({
+      winner: 'instagram',
       matches: [
         {
-          "score": 0.23529411764705882,
-          "target": "abc*******",
+          score: 0,
+          target: 'facebook',
         },
         {
-          "score": 0.35294117647058826,
-          "target": "abcd******",
+          score: 0.4,
+          target: 'instagram',
         },
         {
-          "score": 0.47058823529411764,
-          "target": "abcde*****",
+          score: 0.14285714285714285,
+          target: 'linkedin',
         },
-        {
-          "score": 0.5882352941176471,
-          "target": "ABCDEF****",
-        },
-        {
-          "score": 0.47058823529411764,
-          "target": "abcde*g***",
-        },
-        {
-          "score": 0.5882352941176471,
-          "target": "abcdef****",
-        }
-      ]
-    })
-  })
-})
+      ],
+    });
+  });
+});

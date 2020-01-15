@@ -1,16 +1,29 @@
 {
-  "version": "0.1.2",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "description": "🚀 the super fast and easy didyoumean which use dice-coefficient and levenshtein",
+  "repository": {
+    "url": "https://github.com/cbbfcd/didyoumean3",
+    "type": "github"
+  },
+  "bugs": {
+    "url": "https://github.com/cbbfcd/didyoumean3/issues"
+  },
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "dice-coefficient",
+    "didyoumean",
+    "levenshtein"
   ],
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build --target node",
     "test": "tsdx test",
-    "lint": "tsdx lint",
+    "lint": "tsdx lint --fix",
     "prepare": "tsdx build --target node"
   },
   "husky": {
@@ -29,6 +42,9 @@
   "module": "dist/didyoumean3.esm.js",
   "devDependencies": {
     "@types/jest": "^24.0.25",
+    "benchmark": "^2.1.4",
+    "didyoumean": "^1.2.1",
+    "didyoumean2": "^3.1.2",
     "husky": "^4.0.6",
     "tsdx": "^0.12.3",
     "tslib": "^1.10.0",
