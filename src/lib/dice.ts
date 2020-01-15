@@ -6,7 +6,7 @@ export const dice = (a: string, b: string): number => {
   if (!lena && !lenb) return 1;
   if (!lena || !lenb) return 0;
   if (a === b) return 1;
-  // means when the words like 'ab' with 'a', it's work not well
+  // means when the words like 'ab' with 'a', it works not well
   if (lena < 2 || lenb < 2) return 0;
 
   let map = new Map();
