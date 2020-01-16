@@ -22,7 +22,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build --target node",
-    "test": "tsdx test",
+    "test": "tsdx test --coverage",
     "lint": "tsdx lint --fix",
     "prepare": "tsdx build --target node"
   },
