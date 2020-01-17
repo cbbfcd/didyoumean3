@@ -11,6 +11,7 @@
 - Support custom your return result
 - Typescript
 - Super fast 🚀
+- Super small (production.min.js ~ 2kb) and tree shaking!
 - [ ] Support emoji or diacritics
 
 ## usage
