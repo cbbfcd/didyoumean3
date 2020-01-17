@@ -33,6 +33,8 @@ didyoumean3(input, list) // instagram
 // dice-coefficient
 didyoumean3(input, list, { similar: 'dice' }) // instagram
 ```
+**notice: If you customize the algorithm, you must also specify a comparator to indicate whether the output is the smallest or the largest**
+
 read more config info 👇
 
 ## options description
@@ -85,14 +87,20 @@ export type Options = {
 ## benchmark
 
 ```js
-didyoumean x 193,411 ops/sec ±1.39% (87 runs sampled)
-didyoumean2 x 303,996 ops/sec ±1.72% (82 runs sampled)
-didyoumean3-leven x 489,616 ops/sec ±0.76% (89 runs sampled)
-didyoumean3-dice x 130,456 ops/sec ±0.57% (91 runs sampled)
+didyoumean x 194,593 ops/sec ±1.07% (84 runs sampled)
+didyoumean2 x 311,318 ops/sec ±0.63% (90 runs sampled)
+didyoumean3-leven x 510,067 ops/sec ±0.48% (84 runs sampled)
+didyoumean3-dice x 294,427 ops/sec ±0.46% (85 runs sampled)
 Fastest is didyoumean3-leven
 ```
 
 ## changelog
+
+#### v-1.0.1
+
+1. improve the performance of the dice-coefficient algorithm
+2. add CI/CD
+3. coverage test
 
 #### v-1.0.0
 

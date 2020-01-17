@@ -24,11 +24,12 @@
     "build": "tsdx build --target node",
     "test": "tsdx test --coverage",
     "lint": "tsdx lint --fix",
-    "prepare": "tsdx build --target node"
+    "prepare": "tsdx build --target node",
+    "bench": "npm run build && node bench.js"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
+      "pre-commit": "tsdx lint --fix"
     }
   },
   "prettier": {

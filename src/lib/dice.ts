@@ -1,40 +1,32 @@
-export const dice = (a: string, b: string): number => {
-  let lena = a.length;
-  let lenb = b.length;
+const bigrams = (s: string): string[] => {
+  const grams: string[] = [];
 
-  // boundary conditions
-  if (!lena && !lenb) return 1;
-  if (!lena || !lenb) return 0;
-  if (a === b) return 1;
-  // means when the words like 'ab' with 'a', it works not well
-  if (lena < 2 || lenb < 2) return 0;
-
-  let map = new Map();
-
-  let e = 0; // intersections
-  let r: string; // bigrams
-  let c: number; // counter
+  const l = ~-s.length;
+  if (!l) return [s];
 
   let i = -1;
-  let t = lena - 1;
-  while (++i < t) {
-    r = a.substring(i, i + 2);
-    c = map.has(r) ? map.get(r) + 1 : 1;
+  while (++i < l) grams[i] = s.slice(i, i + 2);
 
-    map.set(r, c);
-  }
+  return grams;
+};
 
-  i = -1;
-  t = lenb - 1;
-  while (++i < t) {
-    r = b.substring(i, i + 2);
-    c = map.has(r) ? map.get(r) : 0;
+export const dice = (a: string, b: string): number => {
+  if (a === b) return 1;
 
-    if (c > 0) {
-      e++;
-      map.set(r, ~-c);
-    }
-  }
+  let la = a.length;
+  let lb = b.length;
 
-  return (2 * e) / (lena + lenb - 2);
+  if (!la || !lb) return 0;
+
+  let l = bigrams(a);
+  let r = bigrams(b);
+
+  la = l.length;
+  lb = r.length;
+  let i,
+    c = 0;
+
+  for (i = 0; i < la; i++) r.includes(l[i]) && c++;
+
+  return (2 * c) / (la + lb);
 };

@@ -1,6 +1,8 @@
 import { didyoumean3 } from '../src';
 import { Val } from '../src/util';
 
+const { leven, dice } = didyoumean3;
+
 let input = 'insargrm';
 let list = [
   'facebook',
@@ -140,5 +142,92 @@ describe('test output when matching against a list of strings', () => {
         },
       ],
     });
+  });
+});
+
+// TODO: add more test case for leven and dice-coefficient
+describe('test dice', () => {
+  it('test dice with empty params', () => {
+    expect(dice('', 'hello')).toBe(0);
+  });
+});
+
+describe('test leven', () => {
+  it('test dice with empty params', () => {
+    expect(leven('', 'hello')).toBe(5);
+    expect(leven('hello', '')).toBe(5);
+  });
+});
+
+// TODO: add test case for utils
+
+describe('test some boundary conditions for coverage test', () => {
+  const normalize = (x: string) => x.replace(/_/g, '');
+  const result = (x: any) => ({ ...x, ...{ first: x.winner } });
+  const compartor = (a: number, b: number) => a < b;
+
+  it('use leven as default with an empty input', () => {
+    expect(didyoumean3('', ['anything', '  ', ''])).toBe(null);
+  });
+
+  it('use dice-coefficient with an empty input', () => {
+    expect(didyoumean3('', ['anything', '  ', ''], { similar: 'dice' })).toBe(
+      null
+    );
+  });
+
+  it('use leven as default with custom normalize function', () => {
+    expect(
+      didyoumean3('_hello_', ['-hello', '_hello'], { normalize })?.winner
+    ).toBe('_hello');
+  });
+
+  it('use dice-coefficient with custom normalize function', () => {
+    expect(
+      didyoumean3('_hello_', ['-hello', '_hello'], {
+        similar: 'dice',
+        normalize,
+      })?.winner
+    ).toBe('_hello');
+  });
+
+  it('use leven as default with diacritics = true', () => {
+    expect(
+      didyoumean3('résumé', ['resume', 'resumé'], { diacritics: true })?.winner
+    ).toBe('resumé');
+  });
+
+  it('use dice-coefficient with diacritics = true', () => {
+    expect(
+      didyoumean3('résumé', ['resume', 'resumé'], {
+        similar: 'dice',
+        diacritics: true,
+      })?.winner
+    ).toBe('resumé');
+  });
+
+  it('custom our algorithm and you must custom the comprator', () => {
+    expect(
+      didyoumean3('hello', ['hell', 'world', 'HELLO'], {
+        similar: leven,
+        compartor,
+      })?.winner
+    ).toBe('hell');
+  });
+
+  it('custom our return result', () => {
+    expect(
+      didyoumean3('hello', ['hell', 'world', 'HELLO'], { result, ignore: true })
+        ?.first
+    ).toBe('HELLO');
+  });
+
+  it('use dice-coefficient with single str', () => {
+    expect(
+      didyoumean3('h', ['hell', 'world', 'HELLO'], {
+        ignore: true,
+        similar: 'dice',
+      })?.winner
+    ).toBe('hell');
   });
 });

@@ -16,7 +16,6 @@ export const leven = (a: string, b: string): number => {
   let lb = b.length;
 
   if (!la) return lb;
-  if (!lb) return la;
 
   // trim common suffix, that's the reson why we need swith the params according to it's length
   while (la > 0 && a.charCodeAt(~-la) === b.charCodeAt(~-lb)) {
