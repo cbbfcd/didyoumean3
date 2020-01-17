@@ -98,6 +98,10 @@ Fastest is didyoumean3-leven
 
 ## changelog
 
+#### v-1.1.1
+
+1. remove test file in dist
+
 #### v-1.1.0
 
 1. improve the performance of the dice-coefficient algorithm
