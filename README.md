@@ -96,7 +96,7 @@ Fastest is didyoumean3-leven
 
 ## changelog
 
-#### v-1.0.1
+#### v-1.0.2
 
 1. improve the performance of the dice-coefficient algorithm
 2. add CI/CD
