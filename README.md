@@ -1,6 +1,14 @@
 # didyoumean3
 
+[![NPM](https://nodei.co/npm/didyoumean3.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/didyoumean3/)
 [![Greenkeeper badge](https://badges.greenkeeper.io/cbbfcd/didyoumean3.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.com/cbbfcd/didyoumean3.svg?branch=master)](https://travis-ci.com/cbbfcd/didyoumean3)
+![Codecov](https://img.shields.io/codecov/c/github/cbbfcd/didyoumean3)
+![David](https://img.shields.io/david/dev/cbbfcd/didyoumean3)
+![npm](https://img.shields.io/npm/dw/didyoumean3)
+![npm](https://img.shields.io/npm/v/didyoumean3)
+![GitHub top language](https://img.shields.io/github/languages/top/cbbfcd/didyoumean3)
+![NPM](https://img.shields.io/npm/l/didyoumean3)
 
 > notice: Covers most situations and still needs to be optimized, i will do better!
 
