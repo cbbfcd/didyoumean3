@@ -1,5 +1,7 @@
 # didyoumean3
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/cbbfcd/didyoumean3.svg)](https://greenkeeper.io/)
+
 > notice: Covers most situations and still needs to be optimized, i will do better!
 
 ## features
