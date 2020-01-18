@@ -31,6 +31,22 @@ npm i didyoumean3
 ```
 
 ```js
+// result of the didyoumean3
+// if none match return null
+// else return
+{
+  winner: 'the best matched item',
+  matches: [
+    {
+      score: 0.1,
+      target: 'item'
+    },
+    //...
+  ]
+}
+```
+
+```js
 const didyoumean3 = require('didyoumean3').default
 // or if you are using TypeScript or ES module
 import didyoumean3 from 'didyoumean3'
@@ -41,10 +57,23 @@ let list = [
 ]
 
 // levenshtein
-didyoumean3(input, list) // instagram
+didyoumean3(input, list)?.winner // instagram
 
 // dice-coefficient
-didyoumean3(input, list, { similar: 'dice' }) // instagram
+didyoumean3(input, list, { similar: 'dice' })?.winner // instagram
+
+// or use your custom algorithm
+const your_leven = require('some/leven');
+const your_comparator = (a: number, b: number) => a < b;
+didyoumean3(input, list, { similar: your_leven, comparator: your_comparator })
+
+// specify the way you get the value
+const val = item => item.id;
+didyoumean3(input, [{id: 'facebook'}, {id: 'baidu'}, {id: 'instagram'}], { vaL })?.winner; // {id: 'instagram'}
+
+// specify the result you want
+const result = item => ({...item, first: 'this is a demo'});
+didyoumean3(input, list, { result }); //{winner: 'instagram', matches: [], first: 'this is a demo'}
 ```
 **notice: If you customize the algorithm, you must also specify a comparator to indicate whether the output is the smallest or the largest**
 
@@ -79,7 +108,7 @@ export type BuiltInSimilar = 'dice' | 'leven'
  * @type {boolean} trim: ' a bcs ' -> 'a bcs'
  * @type {boolean} trimAll: ' a bcs' -> 'abcs'
  * @type {boolean} diacritics: 'café' -> 'café'.normalize()
- * @type {Function} val: when you need find the best result in a object list, it's useful
+ * @type {Function} val: when passing in an array of objects, you can specify the return result through val
  * @type {string | Function} similar: use builtin shortest edit-distance algorithm or yours
  * @type {Function} result: you can custom your return result
  * @type {Function} compartor: you can custom the compare rules, because will maybe use the highest score or the lowest score
