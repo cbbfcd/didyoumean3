@@ -1,6 +1,8 @@
 # didyoumean3
 
 [![NPM](https://nodei.co/npm/didyoumean3.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/didyoumean3/)
+
+
 [![Greenkeeper badge](https://badges.greenkeeper.io/cbbfcd/didyoumean3.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.com/cbbfcd/didyoumean3.svg?branch=master)](https://travis-ci.com/cbbfcd/didyoumean3)
 ![Codecov](https://img.shields.io/codecov/c/github/cbbfcd/didyoumean3)
