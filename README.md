@@ -16,24 +16,29 @@
 
 ## features
 
-- Shortest editing algorithm with built-in levenshtein and dice-coefficient
-- Support custom extended edit distance algorithm
-- Support custom your return result
+- Built-in fastest shortest edit distance algorithm -> levenshtein and dice-coefficient
+- Support custom algorithms
+- Support custom return results
 - Typescript
-- Super fast 🚀
+- Super fast
 - Super small (production.min.js ~ 2kb) and tree shaking!
 - [ ] Support emoji or diacritics
 
 ## usage
 
+### install
+
 ```js
 npm i didyoumean3
 ```
 
+### return results
+
 ```js
-// result of the didyoumean3
 // if none match return null
-// else return
+didyoumean3('', ['anything']); // null
+
+// else will a object like 👇:
 {
   winner: 'the best matched item',
   matches: [
@@ -44,7 +49,12 @@ npm i didyoumean3
     //...
   ]
 }
+
+// or you can use a custom function to specify the result, just add an option "result"
+didyoumean3('', ['anything'], { result: x => x || 'no matched!' });
 ```
+
+### details
 
 ```js
 const didyoumean3 = require('didyoumean3').default
@@ -62,22 +72,19 @@ didyoumean3(input, list)?.winner // instagram
 // dice-coefficient
 didyoumean3(input, list, { similar: 'dice' })?.winner // instagram
 
+
 // or use your custom algorithm
+// notice: If you customize the algorithm, 
+// you must also specify a comparator to indicate whether the output is the smallest or the largest
 const your_leven = require('some/leven');
 const your_comparator = (a: number, b: number) => a < b;
 didyoumean3(input, list, { similar: your_leven, comparator: your_comparator })
 
+
 // specify the way you get the value
 const val = item => item.id;
 didyoumean3(input, [{id: 'facebook'}, {id: 'baidu'}, {id: 'instagram'}], { vaL })?.winner; // {id: 'instagram'}
-
-// specify the result you want
-const result = item => ({...item, first: 'this is a demo'});
-didyoumean3(input, list, { result }); //{winner: 'instagram', matches: [], first: 'this is a demo'}
 ```
-**notice: If you customize the algorithm, you must also specify a comparator to indicate whether the output is the smallest or the largest**
-
-read more config info 👇
 
 ## options description
 
@@ -102,6 +109,12 @@ export interface Normalize {
 
 // dice-coefficient or levenshtein
 export type BuiltInSimilar = 'dice' | 'leven'
+
+export type Result <T extends string | object> = {
+  winner: T,
+  matches: ReadonlyArray<T>,
+  [key: string]: any
+} | null
 
 /**
  * @type {boolean} ignore: ignore case 'A' -> 'a'
@@ -135,25 +148,6 @@ didyoumean3-leven x 510,067 ops/sec ±0.48% (84 runs sampled)
 didyoumean3-dice x 294,427 ops/sec ±0.46% (85 runs sampled)
 Fastest is didyoumean3-leven
 ```
-
-## changelog
-
-#### v-1.1.1
-
-1. remove test file in dist
-
-#### v-1.1.0
-
-1. improve the performance of the dice-coefficient algorithm
-2. add CI/CD
-3. coverage test
-
-#### v-1.0.0
-
-1. refactor the beta version, and we can custom our algorithm
-2. we can custom our result now
-3. we can custom our normalize string function now
-4. builtin dice-coefficient or levenshtein algorithm
 
 ## contributors
 
