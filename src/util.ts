@@ -17,7 +17,7 @@ export interface Normalize {
 }
 
 export interface Filter {
-  (score: number, target: string | object): boolean; 
+  (score: number, target: string | object): boolean;
 }
 
 export type BuiltInSimilar = 'dice' | 'leven';

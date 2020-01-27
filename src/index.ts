@@ -14,7 +14,7 @@ const defaultOpts: Partial<Options> = {
   trim: true,
   trimAll: false,
   diacritics: false,
-  filter: () => true
+  filter: () => true,
 };
 
 const didyoumean3 = <T extends string | object>(
