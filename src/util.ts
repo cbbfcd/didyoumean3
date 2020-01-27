@@ -16,8 +16,8 @@ export interface Normalize {
   (x: string): string;
 }
 
-export interface Compartor {
-  (a: number, b: number): boolean;
+export interface Filter {
+  (score: number, target: string | object): boolean; 
 }
 
 export type BuiltInSimilar = 'dice' | 'leven';
@@ -30,7 +30,7 @@ export type BuiltInSimilar = 'dice' | 'leven';
  * @type {Function} val: when you need find the best result in a object list, it's useful
  * @type {string | Function} similar: use builtin shortest edit-distance algorithm or yours
  * @type {Function} result: you can custom your return result
- * @type {Function} compartor: you can custom the compare rules, because will maybe use the highest score or the lowest score
+ * @type {Function} filter: you can filter the data into the returned results
  */
 export type Options = {
   ignore?: boolean;
@@ -41,7 +41,7 @@ export type Options = {
   val?: Val;
   similar?: BuiltInSimilar | Similar;
   result?: Return;
-  compartor?: Compartor;
+  filter?: Filter;
 };
 
 export const isFunction = (f: any) =>
@@ -70,11 +70,3 @@ export const getVal = <T extends string | object>(i: T, k?: Val): string => {
 
 export const resultFactory = (res?: Return) => (r: any) =>
   isFunction(res) ? res!(r) : r;
-
-export const compareFactory = (c?: Compartor, s?: BuiltInSimilar) => (
-  a: number,
-  b: number
-) => {
-  if (isFunction(c)) return c!(a, b);
-  return s === 'leven' ? a < b : a > b;
-};

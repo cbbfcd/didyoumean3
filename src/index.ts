@@ -2,10 +2,8 @@ import {
   normalize,
   similarFactory,
   resultFactory,
-  compareFactory,
   getVal,
   Options,
-  BuiltInSimilar,
 } from './util';
 
 import { dice } from './lib/dice';
@@ -16,6 +14,7 @@ const defaultOpts: Partial<Options> = {
   trim: true,
   trimAll: false,
   diacritics: false,
+  filter: () => true
 };
 
 const didyoumean3 = <T extends string | object>(
@@ -23,7 +22,7 @@ const didyoumean3 = <T extends string | object>(
   t: ReadonlyArray<T>,
   opts?: Options
 ): any => {
-  const { val, similar = 'leven', result, compartor, ...cfg } = {
+  const { val, similar = 'leven', result, filter, ...cfg } = {
     ...defaultOpts,
     ...opts,
   };
@@ -33,7 +32,6 @@ const didyoumean3 = <T extends string | object>(
   if (!s) return res(null);
 
   const calc = similarFactory(similar);
-  const compare = compareFactory(compartor, similar as BuiltInSimilar);
   const matches = [];
   let winner: any = null;
   let temp: number | null = null;
@@ -42,11 +40,10 @@ const didyoumean3 = <T extends string | object>(
     const target = t[i];
     const score = calc(s, normalize(getVal(target, val), cfg));
 
-    // TODO: condition?
-    matches.push({ score, target });
+    filter!(score, target) && matches.push({ score, target });
 
     // May be the highest score or the lowest score
-    if (temp === null || compare(score, temp)) {
+    if (temp === null || score < temp) {
       temp = score;
       winner = target;
     }

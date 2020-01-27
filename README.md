@@ -21,6 +21,7 @@
 - Support custom return results
 - Typescript
 - Super fast
+- More flexible configuration
 - Super small (production.min.js ~ 2kb) and tree shaking!
 - [ ] Support emoji or diacritics
 
@@ -74,11 +75,10 @@ didyoumean3(input, list, { similar: 'dice' })?.winner // instagram
 
 
 // or use your custom algorithm
-// notice: If you customize the algorithm, 
-// you must also specify a comparator to indicate whether the output is the smallest or the largest
-const your_leven = require('some/leven');
+// notice: If you customize the algorithm, the optimal route must take the minimum
+const your_leven = require('some/your_leven');
 const your_comparator = (a: number, b: number) => a < b;
-didyoumean3(input, list, { similar: your_leven, comparator: your_comparator })
+didyoumean3(input, list, { similar: your_leven })
 
 
 // specify the way you get the value
@@ -121,22 +121,22 @@ export type Result <T extends string | object> = {
  * @type {boolean} trim: ' a bcs ' -> 'a bcs'
  * @type {boolean} trimAll: ' a bcs' -> 'abcs'
  * @type {boolean} diacritics: 'café' -> 'café'.normalize()
- * @type {Function} val: when passing in an array of objects, you can specify the return result through val
+ * @type {Function} val: when you need find the best result in a object list, it's useful
  * @type {string | Function} similar: use builtin shortest edit-distance algorithm or yours
  * @type {Function} result: you can custom your return result
- * @type {Function} compartor: you can custom the compare rules, because will maybe use the highest score or the lowest score
+ * @type {Function} filter: you can filter the data into the returned results
  */
 export type Options = {
-  ignore?: boolean, // default false
-  trim?: boolean, // default true
-  trimAll?: boolean, // default false
-  diacritics?: boolean, // default false
-  normalize?: Normalize, // default undefined
-  val?: Val, // default undefined
-  similar?: BuiltInSimilar | Similar, // default leven
-  result?: Return, // default undefined
-  compartor?: Compartor // default undefined
-}
+  ignore?: boolean;
+  trim?: boolean;
+  trimAll?: boolean;
+  diacritics?: boolean;
+  normalize?: Normalize;
+  val?: Val;
+  similar?: BuiltInSimilar | Similar;
+  result?: Return;
+  filter?: Filter;
+};
 ```
 
 ## benchmark

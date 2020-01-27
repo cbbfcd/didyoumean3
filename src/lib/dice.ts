@@ -11,12 +11,12 @@ const bigrams = (s: string): string[] => {
 };
 
 export const dice = (a: string, b: string): number => {
-  if (a === b) return 1;
+  if (a === b) return 0;
 
   let la = a.length;
   let lb = b.length;
 
-  if (!la || !lb) return 0;
+  if (!la || !lb) return 1;
 
   let l = bigrams(a);
   let r = bigrams(b);
@@ -28,5 +28,5 @@ export const dice = (a: string, b: string): number => {
 
   for (i = 0; i < la; i++) r.includes(l[i]) && c++;
 
-  return (2 * c) / (la + lb);
+  return 1 - (2 * c) / (la + lb);
 };

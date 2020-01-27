@@ -129,15 +129,15 @@ describe('test output when matching against a list of strings', () => {
       winner: 'instagram',
       matches: [
         {
-          score: 0,
+          score: 1,
           target: 'facebook',
         },
         {
-          score: 0.4,
+          score: 0.6,
           target: 'instagram',
         },
         {
-          score: 0.14285714285714285,
+          score: 0.8571428571428572,
           target: 'linkedin',
         },
       ],
@@ -148,7 +148,7 @@ describe('test output when matching against a list of strings', () => {
 // TODO: add more test case for leven and dice-coefficient
 describe('test dice', () => {
   it('test dice with empty params', () => {
-    expect(dice('', 'hello')).toBe(0);
+    expect(dice('', 'hello')).toBe(1);
   });
 });
 
@@ -164,7 +164,6 @@ describe('test leven', () => {
 describe('test some boundary conditions for coverage test', () => {
   const normalize = (x: string) => x.replace(/_/g, '');
   const result = (x: any) => ({ ...x, ...{ first: x.winner } });
-  const compartor = (a: number, b: number) => a < b;
 
   it('use leven as default with an empty input', () => {
     expect(didyoumean3('', ['anything', '  ', ''])).toBe(null);
@@ -204,15 +203,6 @@ describe('test some boundary conditions for coverage test', () => {
         diacritics: true,
       })?.winner
     ).toBe('resumé');
-  });
-
-  it('custom our algorithm and you must custom the comprator', () => {
-    expect(
-      didyoumean3('hello', ['hell', 'world', 'HELLO'], {
-        similar: leven,
-        compartor,
-      })?.winner
-    ).toBe('hell');
   });
 
   it('custom our return result', () => {

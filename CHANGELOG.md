@@ -1,5 +1,10 @@
 # changelog
 
+#### v-1.1.3
+
+1. delete opt compartor
+2. add opt filter
+
 #### v-1.1.2
 
 1. update the doc
