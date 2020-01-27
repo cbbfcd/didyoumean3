@@ -1,6 +1,6 @@
 # changelog
 
-#### v-1.1.3
+#### v-1.1.4
 
 1. delete opt compartor
 2. add opt filter
