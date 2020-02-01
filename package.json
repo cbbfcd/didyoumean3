@@ -14,6 +14,16 @@
   "files": [
     "dist"
   ],
+  "filesize": [
+    {
+      "maxSize": "2kb",
+      "path": "./dist/didyoumean3.cjs.production.min.js"
+    },
+    {
+      "maxSize": "2kb",
+      "path": "./dist/didyoumean3.cjs.development.js"
+    }
+  ],
   "keywords": [
     "dice-coefficient",
     "didyoumean",
@@ -25,11 +35,12 @@
     "test": "tsdx test --coverage",
     "lint": "tsdx lint --fix",
     "prepare": "tsdx build --target node",
-    "bench": "npm run build && node bench.js"
+    "bench": "npm run build && node bench.js",
+    "filesize": "filesize"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint --fix"
+      "pre-commit": "npm run filesize & tsdx lint --fix"
     }
   },
   "prettier": {
@@ -47,6 +58,7 @@
     "didyoumean": "^1.2.1",
     "didyoumean2": "^3.1.2",
     "husky": "^4.0.6",
+    "simple-file-size": "^1.0.6",
     "tsdx": "^0.12.3",
     "tslib": "^1.10.0",
     "typescript": "^3.7.4"
