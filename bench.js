@@ -27,9 +27,6 @@ suite
   .add('didyoumean3-leven', () => {
     run(didyoumean3)
   })
-  .add('didyoumean3-dice', () => {
-    run(didyoumean3, { similar: 'dice' })
-  })
   .on('cycle', function(event) {
     console.log(String(event.target));
   })

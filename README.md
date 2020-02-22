@@ -14,10 +14,9 @@
 
 > notice: Covers most situations and still needs to be optimized, i will do better!
 
-## features
+## Features
 
-- Built-in fastest shortest edit distance algorithm -> levenshtein and dice-coefficient
-- Support custom algorithms
+- Built-in fastest levenshtein algorithm
 - Support custom return results
 - Typescript
 - Super fast
@@ -25,7 +24,7 @@
 - Super small (production.min.js ~ 2kb) and tree shaking!
 - [ ] Support emoji or diacritics
 
-## usage
+## Usage
 
 ### install
 
@@ -33,33 +32,11 @@
 npm i didyoumean3
 ```
 
-### return results
+### use case
+
+- **base use**
 
 ```js
-// if none match return null
-didyoumean3('', ['anything']); // null
-
-// else will a object like 👇:
-{
-  winner: 'the best matched item',
-  matches: [
-    {
-      score: 0.1,
-      target: 'item'
-    },
-    //...
-  ]
-}
-
-// or you can use a custom function to specify the result, just add an option "result"
-didyoumean3('', ['anything'], { result: x => x || 'no matched!' });
-```
-
-### details
-
-```js
-const didyoumean3 = require('didyoumean3').default
-// or if you are using TypeScript or ES module
 import didyoumean3 from 'didyoumean3'
 
 let input = 'insargrm'
@@ -67,76 +44,84 @@ let list = [
   'facebook', 'INSTAgram', ' in stagram', 'baidu', 'twitter', 'wechat', 'instagram', 'linkedin'
 ]
 
-// levenshtein
-didyoumean3(input, list)?.winner // instagram
+didyoumean3(input, list)
 
-// dice-coefficient
-didyoumean3(input, list, { similar: 'dice' })?.winner // instagram
-
-
-// or use your custom algorithm
-// notice: If you customize the algorithm, the optimal route must take the minimum
-const your_leven = require('some/your_leven');
-const your_comparator = (a: number, b: number) => a < b;
-didyoumean3(input, list, { similar: your_leven })
-
-
-// specify the way you get the value
-const val = item => item.id;
-didyoumean3(input, [{id: 'facebook'}, {id: 'baidu'}, {id: 'instagram'}], { vaL })?.winner; // {id: 'instagram'}
+// will output:
+// {
+//   winner: 'instagram',
+//   matches: [
+//     {
+//       score: 8,
+//       target: 'facebook',
+//     },
+//     {
+//       score: 3,
+//       target: 'instagram',
+//     },
+//     {
+//       score: 7,
+//       target: 'linkedin',
+//     },
+//     // ...
+//   ],
+// }
 ```
 
-## options description
+- **optional configuration**
 
-I'm lazy, I just give the declaration file 👇
+`didyoumea3` has some built-in string formatting configuration items：
 
-```ts
-export interface Val {
-  (x: string | object): string
+* `ignore`: default is false, Case-insensitive 
+* `trim`: default is true, will use `string.trim` format the string
+* `trimAll`: defalut is false, will trim with regexp `/\s+/g`
+* `diacritics`: default is false, just 'café' -> 'café'.normalize()
+* `normalize`: customize the formatting function by yourself
+
+🔥If these parameters don't meet your requirements, you can customize the formatting function through `normalize`.
+
+🔥When using the custom normalize function, the above string formatting configurations will fail
+
+```js
+didyoumean3(input, target, { normalize: (s: string) => s.trim() } );
+```
+
+* `val`: sometimes, you need to match against a list of object. you can use `val` to get the target string out.
+
+```js
+let l = [
+  { id: 'facebook' },
+  { id: 'baidu' },
+  { id: 'twitter' },
+  { id: 'INSTAgram' },
+  { id: ' in stagram' },
+  { id: 'wechat' },
+  { id: 'instagram' },
+  { id: 'linkedin' },
+];
+
+didyoumean3(input, target, { val: item => item.id } );
+```
+
+* `result`: Customize the structure of the results you want to return
+
+```js
+type Res = null | { matches: any[], winner: string }
+const result = (res: Res) => {
+  if (!res) return 'nothing matched!'
+  else return res
 }
 
-export interface Similar {
-  (a: string, b: string, opts?: Partial<Options>): number
-}
+didyoumean3(input, target, { result } );
+```
+* `filter`: You can filter the results you want, such as those with a score greater than 5
 
-export interface Return {
-  (x: any): any
-}
-
-export interface Normalize {
-  (x: string): string
-}
-
-// dice-coefficient or levenshtein
-export type BuiltInSimilar = 'dice' | 'leven'
-
-export type Result <T extends string | object> = {
-  winner: T,
-  matches: ReadonlyArray<T>,
-  [key: string]: any
-} | null
-
-/**
- * @type {boolean} ignore: ignore case 'A' -> 'a'
- * @type {boolean} trim: ' a bcs ' -> 'a bcs'
- * @type {boolean} trimAll: ' a bcs' -> 'abcs'
- * @type {boolean} diacritics: 'café' -> 'café'.normalize()
- * @type {Function} val: when you need find the best result in a object list, it's useful
- * @type {string | Function} similar: use builtin shortest edit-distance algorithm or yours
- * @type {Function} result: you can custom your return result
- * @type {Function} filter: you can filter the data into the returned results
- */
-export type Options = {
-  ignore?: boolean;
-  trim?: boolean;
-  trimAll?: boolean;
-  diacritics?: boolean;
-  normalize?: Normalize;
-  val?: Val;
-  similar?: BuiltInSimilar | Similar;
-  result?: Return;
-  filter?: Filter;
-};
+```js
+let i2 = 'insargrm';
+let l2 = ['facebook', 'instagram', 'linkedin'];
+expect(
+  didyoumean3(i2, l2, { filter: (score: number, item: any) => score >= 7 })
+    ?.matches.length
+).toBe(2); 
 ```
 
 ## benchmark
@@ -145,7 +130,6 @@ export type Options = {
 didyoumean x 194,593 ops/sec ±1.07% (84 runs sampled)
 didyoumean2 x 311,318 ops/sec ±0.63% (90 runs sampled)
 didyoumean3-leven x 510,067 ops/sec ±0.48% (84 runs sampled)
-didyoumean3-dice x 294,427 ops/sec ±0.46% (85 runs sampled)
 Fastest is didyoumean3-leven
 ```
 

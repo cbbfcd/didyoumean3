@@ -1,7 +1,7 @@
 import { didyoumean3 } from '../src';
 import { Val } from '../src/util';
 
-const { leven, dice } = didyoumean3;
+const { leven } = didyoumean3;
 
 let input = 'insargrm';
 let list = [
@@ -20,34 +20,16 @@ describe('matching against a list of strings', () => {
     expect(didyoumean3(input, list)?.winner).toBe('instagram');
   });
 
-  it('use dice-coefficient', () => {
-    expect(didyoumean3(input, list, { similar: 'dice' })?.winner).toBe(
-      'instagram'
-    );
-  });
-
   it('use leven as default with ignore = true', () => {
     expect(didyoumean3(input, list, { ignore: true })?.winner).toBe(
       'INSTAgram'
     );
   });
 
-  it('use dice-coefficient with ignore = true', () => {
-    expect(
-      didyoumean3(input, list, { similar: 'dice', ignore: true })?.winner
-    ).toBe('INSTAgram');
-  });
-
   it('use leven as default with trimAll = true', () => {
     expect(didyoumean3(input, list, { trimAll: true })?.winner).toBe(
       ' in stagram'
     );
-  });
-
-  it('use dice-coefficient with trimAll = true', () => {
-    expect(
-      didyoumean3(input, list, { similar: 'dice', trimAll: true })?.winner
-    ).toBe(' in stagram');
   });
 });
 
@@ -69,34 +51,16 @@ describe('matching against a list of object', () => {
     expect(didyoumean3(input, l, { val })?.winner).toEqual({ id: 'instagram' });
   });
 
-  it('use dice-coefficient', () => {
-    expect(didyoumean3(input, l, { similar: 'dice', val })?.winner).toEqual({
-      id: 'instagram',
-    });
-  });
-
   it('use leven as default with ignore = true', () => {
     expect(didyoumean3(input, l, { ignore: true, val })?.winner).toEqual({
       id: 'INSTAgram',
     });
   });
 
-  it('use dice-coefficient with ignore = true', () => {
-    expect(
-      didyoumean3(input, l, { similar: 'dice', ignore: true, val })?.winner
-    ).toEqual({ id: 'INSTAgram' });
-  });
-
   it('use leven as default with trimAll = true', () => {
     expect(didyoumean3(input, l, { trimAll: true, val })?.winner).toEqual({
       id: ' in stagram',
     });
-  });
-
-  it('use dice-coefficient with trimAll = true', () => {
-    expect(
-      didyoumean3(input, l, { similar: 'dice', trimAll: true, val })?.winner
-    ).toEqual({ id: ' in stagram' });
   });
 });
 
@@ -123,33 +87,6 @@ describe('test output when matching against a list of strings', () => {
       ],
     });
   });
-
-  it('use dice-coefficient', () => {
-    expect(didyoumean3(i2, l2, { similar: 'dice' })).toEqual({
-      winner: 'instagram',
-      matches: [
-        {
-          score: 1,
-          target: 'facebook',
-        },
-        {
-          score: 0.6,
-          target: 'instagram',
-        },
-        {
-          score: 0.8571428571428572,
-          target: 'linkedin',
-        },
-      ],
-    });
-  });
-});
-
-// TODO: add more test case for leven and dice-coefficient
-describe('test dice', () => {
-  it('test dice with empty params', () => {
-    expect(dice('', 'hello')).toBe(1);
-  });
 });
 
 describe('test leven', () => {
@@ -169,39 +106,15 @@ describe('test some boundary conditions for coverage test', () => {
     expect(didyoumean3('', ['anything', '  ', ''])).toBe(null);
   });
 
-  it('use dice-coefficient with an empty input', () => {
-    expect(didyoumean3('', ['anything', '  ', ''], { similar: 'dice' })).toBe(
-      null
-    );
-  });
-
   it('use leven as default with custom normalize function', () => {
     expect(
       didyoumean3('_hello_', ['-hello', '_hello'], { normalize })?.winner
     ).toBe('_hello');
   });
 
-  it('use dice-coefficient with custom normalize function', () => {
-    expect(
-      didyoumean3('_hello_', ['-hello', '_hello'], {
-        similar: 'dice',
-        normalize,
-      })?.winner
-    ).toBe('_hello');
-  });
-
   it('use leven as default with diacritics = true', () => {
     expect(
       didyoumean3('résumé', ['resume', 'resumé'], { diacritics: true })?.winner
-    ).toBe('resumé');
-  });
-
-  it('use dice-coefficient with diacritics = true', () => {
-    expect(
-      didyoumean3('résumé', ['resume', 'resumé'], {
-        similar: 'dice',
-        diacritics: true,
-      })?.winner
     ).toBe('resumé');
   });
 
@@ -212,12 +125,12 @@ describe('test some boundary conditions for coverage test', () => {
     ).toBe('HELLO');
   });
 
-  it('use dice-coefficient with single str', () => {
+  it('filter the result', () => {
+    let i2 = 'insargrm';
+    let l2 = ['facebook', 'instagram', 'linkedin'];
     expect(
-      didyoumean3('h', ['hell', 'world', 'HELLO'], {
-        ignore: true,
-        similar: 'dice',
-      })?.winner
-    ).toBe('hell');
-  });
+      didyoumean3(i2, l2, { filter: (score: number) => score >= 7 })
+        ?.matches.length
+    ).toBe(2);
+  })
 });
