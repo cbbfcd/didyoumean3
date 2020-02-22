@@ -24,7 +24,7 @@ suite
   .add('didyoumean2', () => {
     run(didyoumean2)
   })
-  .add('didyoumean3-leven', () => {
+  .add('didyoumean3', () => {
     run(didyoumean3)
   })
   .on('cycle', function(event) {

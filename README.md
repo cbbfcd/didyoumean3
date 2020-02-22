@@ -21,7 +21,7 @@
 - Typescript
 - Super fast
 - More flexible configuration
-- Super small (production.min.js ~ 2kb) and tree shaking!
+- Super small (production.min.js < 2kb) and tree shaking! [more info](https://bundlephobia.com/result?p=didyoumean3@1.2.0)
 - [ ] Support emoji or diacritics
 
 ## Usage
@@ -129,7 +129,7 @@ expect(
 ```js
 didyoumean x 194,593 ops/sec ±1.07% (84 runs sampled)
 didyoumean2 x 311,318 ops/sec ±0.63% (90 runs sampled)
-didyoumean3-leven x 510,067 ops/sec ±0.48% (84 runs sampled)
+didyoumean3 x 510,067 ops/sec ±0.48% (84 runs sampled)
 Fastest is didyoumean3-leven
 ```
 
