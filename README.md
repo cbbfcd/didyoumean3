@@ -38,6 +38,8 @@ npm i didyoumean3
 
 ```js
 import didyoumean3 from 'didyoumean3'
+// or
+const { didyoumean3 } = require('didyoumean3');
 
 let input = 'insargrm'
 let list = [
