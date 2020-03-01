@@ -46,12 +46,12 @@ let list = [
   'facebook', 'INSTAgram', ' in stagram', 'baidu', 'twitter', 'wechat', 'instagram', 'linkedin'
 ]
 
-didyoumean3(input, list)
+console.log(didyoumean3(input, list));
 
 // will output:
 // {
 //   winner: 'instagram',
-//   matches: [
+//   matched: [
 //     {
 //       score: 8,
 //       target: 'facebook',
@@ -90,7 +90,7 @@ didyoumean3(input, target, { normalize: (s: string) => s.trim() } );
 * `val`: sometimes, you need to match against a list of object. you can use `val` to get the target string out.
 
 ```js
-let l = [
+let input = [
   { id: 'facebook' },
   { id: 'baidu' },
   { id: 'twitter' },
@@ -107,7 +107,10 @@ didyoumean3(input, target, { val: item => item.id } );
 * `result`: Customize the structure of the results you want to return
 
 ```js
-type Res = null | { matches: any[], winner: string }
+// default result may be null or {winner: xx, matched: []}
+type Res = null | { matched: any[], winner: string }
+
+// you can custom your own result style!!
 const result = (res: Res) => {
   if (!res) return 'nothing matched!'
   else return res
@@ -122,7 +125,7 @@ let i2 = 'insargrm';
 let l2 = ['facebook', 'instagram', 'linkedin'];
 expect(
   didyoumean3(i2, l2, { filter: (score: number, item: any) => score >= 7 })
-    ?.matches.length
+    ?.matched.length
 ).toBe(2); 
 ```
 

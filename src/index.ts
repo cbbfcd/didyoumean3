@@ -29,7 +29,7 @@ const didyoumean3 = <T extends string | object>(
 
   if (!s) return res(null);
 
-  const matches = [];
+  const matched = [];
   let winner: any = null;
   let temp: number | null = null;
 
@@ -37,7 +37,7 @@ const didyoumean3 = <T extends string | object>(
     const target = t[i];
     const score = leven(s, normalize(getVal(target, val), cfg));
 
-    filter!(score, target) && matches.push({ score, target });
+    filter!(score, target) && matched.push({ score, target });
 
     // May be the highest score or the lowest score
     if (temp === null || score < temp) {
@@ -46,7 +46,7 @@ const didyoumean3 = <T extends string | object>(
     }
   }
 
-  return res({ matches, winner });
+  return res({ matched, winner });
 };
 
 didyoumean3.leven = leven;

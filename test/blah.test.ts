@@ -71,7 +71,7 @@ describe('test output when matching against a list of strings', () => {
   it('use levem as default', () => {
     expect(didyoumean3(i2, l2)).toEqual({
       winner: 'instagram',
-      matches: [
+      matched: [
         {
           score: 8,
           target: 'facebook',
@@ -130,7 +130,7 @@ describe('test some boundary conditions for coverage test', () => {
     let l2 = ['facebook', 'instagram', 'linkedin'];
     expect(
       didyoumean3(i2, l2, { filter: (score: number) => score >= 7 })
-        ?.matches.length
+        ?.matched.length
     ).toBe(2);
   })
 });
