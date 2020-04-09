@@ -57,7 +57,7 @@
     "benchmark": "^2.1.4",
     "didyoumean": "^1.2.1",
     "didyoumean2": "^3.1.2",
-    "husky": "^4.0.6",
+    "husky": "^4.2.4",
     "simple-file-size": "^1.0.6",
     "tsdx": "^0.12.3",
     "tslib": "^1.10.0",
