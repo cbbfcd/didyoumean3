@@ -53,7 +53,7 @@
   "author": "cbbfcd",
   "module": "dist/didyoumean3.esm.js",
   "devDependencies": {
-    "@types/jest": "^25.1.0",
+    "@types/jest": "^25.2.2",
     "benchmark": "^2.1.4",
     "didyoumean": "^1.2.1",
     "didyoumean2": "^3.1.2",
