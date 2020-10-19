@@ -129,8 +129,8 @@ describe('test some boundary conditions for coverage test', () => {
     let i2 = 'insargrm';
     let l2 = ['facebook', 'instagram', 'linkedin'];
     expect(
-      didyoumean3(i2, l2, { filter: (score: number) => score >= 7 })
-        ?.matched.length
+      didyoumean3(i2, l2, { filter: (score: number) => score >= 7 })?.matched
+        .length
     ).toBe(2);
-  })
+  });
 });

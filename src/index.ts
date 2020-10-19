@@ -1,9 +1,4 @@
-import {
-  normalize,
-  resultFactory,
-  getVal,
-  Options,
-} from './util';
+import { normalize, resultFactory, getVal, Options } from './util';
 
 import { leven } from './leven';
 
@@ -20,7 +15,6 @@ const didyoumean3 = <T extends string | object>(
   t: ReadonlyArray<T>,
   opts?: Options
 ): any => {
-
   const { val, result, filter, ...cfg } = {
     ...defaultOpts,
     ...opts,
