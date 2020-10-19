@@ -1,5 +1,10 @@
 # changelog
 
+#### v-1.2.5
+
+1. update the docs
+2. `val` property is no longer be used
+
 #### v-1.2.4
 
 1. upgrade some depencies

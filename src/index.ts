@@ -1,4 +1,4 @@
-import { normalize, resultFactory, getVal, Options } from './util';
+import { normalize, resultFactory, Options } from './util';
 
 import { leven } from './leven';
 
@@ -10,12 +10,12 @@ const defaultOpts: Partial<Options> = {
   filter: () => true,
 };
 
-const didyoumean3 = <T extends string | object>(
+const didyoumean3 = <T extends string>(
   s: string,
   t: ReadonlyArray<T>,
   opts?: Options
 ): any => {
-  const { val, result, filter, ...cfg } = {
+  const { result, filter, ...cfg } = {
     ...defaultOpts,
     ...opts,
   };
@@ -30,7 +30,7 @@ const didyoumean3 = <T extends string | object>(
 
   for (let i = 0, len = t.length; i < len; i++) {
     const target = t[i];
-    const score = leven(s, normalize(getVal(target, val), cfg));
+    const score = leven(s, normalize(target, cfg));
 
     filter!(score, target) && matched.push({ score, target });
 

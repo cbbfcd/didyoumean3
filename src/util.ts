@@ -1,7 +1,3 @@
-export interface Val {
-  (x: string | object): string;
-}
-
 export interface Return {
   (x: any): any;
 }
@@ -20,7 +16,6 @@ export interface Filter {
  * @type {boolean} trimAll: ' a bcs' -> 'abcs'
  * @type {boolean} diacritics: 'café' -> 'café'.normalize()
  * @type {Function} normalize: you can formatter the string yourself
- * @type {Function} val: when you need find the best result in a object list, it's useful
  * @type {Function} result: you can custom your return result
  * @type {Function} filter: you can filter the data into the returned results
  */
@@ -30,7 +25,6 @@ export type Options = {
   trimAll?: boolean;
   diacritics?: boolean;
   normalize?: Normalize;
-  val?: Val;
   result?: Return;
   filter?: Filter;
 };
@@ -39,7 +33,7 @@ export const isFunction = (f: any) =>
   !!(f && f.constructor && f.call && f.apply);
 
 export const normalize = (
-  s: string,
+  s: string = '',
   { normalize, trim, ignore, trimAll, diacritics }: Partial<Options>
 ): string => {
   if (isFunction(normalize)) return normalize!(s);
@@ -50,10 +44,6 @@ export const normalize = (
   ignore && (s = s.toLowerCase());
 
   return s;
-};
-
-export const getVal = <T extends string | object>(i: T, k?: Val): string => {
-  return typeof i === 'string' ? i : isFunction(k) ? k!(i) : '';
 };
 
 export const resultFactory = (res?: Return) => (r: any) =>

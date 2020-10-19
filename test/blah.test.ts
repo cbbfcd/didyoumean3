@@ -1,5 +1,4 @@
 import { didyoumean3 } from '../src';
-import { Val } from '../src/util';
 
 const { leven } = didyoumean3;
 
@@ -45,22 +44,18 @@ let l = [
 ];
 
 describe('matching against a list of object', () => {
-  const val: Val = (item: any) => item!.id;
+  const mapVal = (item: any) => item!.id;
 
   it('use leven as default', () => {
-    expect(didyoumean3(input, l, { val })?.winner).toEqual({ id: 'instagram' });
+    expect(didyoumean3(input, l.map(mapVal))?.winner).toEqual('instagram');
   });
 
   it('use leven as default with ignore = true', () => {
-    expect(didyoumean3(input, l, { ignore: true, val })?.winner).toEqual({
-      id: 'INSTAgram',
-    });
+    expect(didyoumean3(input, l.map(mapVal), { ignore: true })?.winner).toEqual('INSTAgram');
   });
 
   it('use leven as default with trimAll = true', () => {
-    expect(didyoumean3(input, l, { trimAll: true, val })?.winner).toEqual({
-      id: ' in stagram',
-    });
+    expect(didyoumean3(input, l.map(mapVal), { trimAll: true })?.winner).toEqual(' in stagram');
   });
 });
 

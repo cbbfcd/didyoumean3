@@ -73,38 +73,27 @@ console.log(didyoumean3(input, list));
 
 `didyoumea3` has some built-in string formatting configuration items：
 
-* `ignore`: default is false, Case-insensitive 
-* `trim`: default is true, will use `string.trim` format the string
-* `trimAll`: defalut is false, will trim with regexp `/\s+/g`
-* `diacritics`: default is false, just 'café' -> 'café'.normalize()
-* `normalize`: customize the formatting function by yourself
+* `ignore`: Ignore case when comparing, default false. 
+  
+* `trim`: Use `string.trim` format the string, default true.
+  
+* `trimAll`: Use regexp `/\s+/g` formate the string, default false.
 
-🔥If these parameters don't meet your requirements, you can customize the formatting function through `normalize`.
+* `diacritics`: Use `normalize` Api, e.g. 'café' -> 'café'.normalize(), default false 
+  
+* `normalize`: Customize the formatting function by yourself.
 
-🔥When using the custom normalize function, the above string formatting configurations will fail
+> 🔥 If these parameters don't meet your requirements, you can customize the formatting function through `normalize`.
+
+> 🔥 When using the custom normalize function, the above string formatting configurations will be ignored.
 
 ```js
 didyoumean3(input, target, { normalize: (s: string) => s.trim() } );
 ```
 
-* `val`: sometimes, you need to match against a list of object. you can use `val` to get the target string out.
+---
 
-```js
-let input = [
-  { id: 'facebook' },
-  { id: 'baidu' },
-  { id: 'twitter' },
-  { id: 'INSTAgram' },
-  { id: ' in stagram' },
-  { id: 'wechat' },
-  { id: 'instagram' },
-  { id: 'linkedin' },
-];
-
-didyoumean3(input, target, { val: item => item.id } );
-```
-
-* `result`: Customize the structure of the results you want to return
+`result`: Customize the structure of the results you want to return
 
 ```js
 // default result may be null or {winner: xx, matched: []}
@@ -118,7 +107,10 @@ const result = (res: Res) => {
 
 didyoumean3(input, target, { result } );
 ```
-* `filter`: You can filter the results you want, such as those with a score greater than 5
+
+---
+
+`filter`: You can filter the results you want, such as those with a score greater than 5
 
 ```js
 let i2 = 'insargrm';
@@ -129,12 +121,14 @@ expect(
 ).toBe(2); 
 ```
 
+---
+
 ## benchmark
 
 ```js
-didyoumean x 168,623 ops/sec ±0.68% (90 runs sampled)
-didyoumean2 x 235,201 ops/sec ±0.51% (92 runs sampled)
-didyoumean3 x 398,555 ops/sec ±0.81% (91 runs sampled)
+didyoumean x 159,428 ops/sec ±1.63% (85 runs sampled)
+didyoumean2 x 227,343 ops/sec ±1.26% (90 runs sampled)
+didyoumean3 x 400,683 ops/sec ±0.59% (89 runs sampled)
 Fastest is didyoumean3
 ```
 
