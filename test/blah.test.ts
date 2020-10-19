@@ -51,11 +51,15 @@ describe('matching against a list of object', () => {
   });
 
   it('use leven as default with ignore = true', () => {
-    expect(didyoumean3(input, l.map(mapVal), { ignore: true })?.winner).toEqual('INSTAgram');
+    expect(didyoumean3(input, l.map(mapVal), { ignore: true })?.winner).toEqual(
+      'INSTAgram'
+    );
   });
 
   it('use leven as default with trimAll = true', () => {
-    expect(didyoumean3(input, l.map(mapVal), { trimAll: true })?.winner).toEqual(' in stagram');
+    expect(
+      didyoumean3(input, l.map(mapVal), { trimAll: true })?.winner
+    ).toEqual(' in stagram');
   });
 });
 
