@@ -20,6 +20,7 @@ const didyoumean3 = <T extends string | object>(
   t: ReadonlyArray<T>,
   opts?: Options
 ): any => {
+
   const { val, result, filter, ...cfg } = {
     ...defaultOpts,
     ...opts,
@@ -27,10 +28,10 @@ const didyoumean3 = <T extends string | object>(
   s = normalize(s, cfg);
   const res = resultFactory(result);
 
-  if (!s) return res(null);
+  if (!s || !t || !t.length) return res(null);
 
   const matched = [];
-  let winner: any = null;
+  let winner: T | null = null;
   let temp: number | null = null;
 
   for (let i = 0, len = t.length; i < len; i++) {

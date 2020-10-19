@@ -12,7 +12,6 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/cbbfcd/didyoumean3)
 ![NPM](https://img.shields.io/npm/l/didyoumean3)
 
-> notice: Covers most situations and still needs to be optimized, i will do better!
 
 ## Features
 
@@ -22,7 +21,6 @@
 - Super fast
 - More flexible configuration
 - Super small (production.min.js < 2kb) and tree shaking! [more info](https://bundlephobia.com/result?p=didyoumean3@1.2.0)
-- [ ] Support emoji or diacritics
 
 ## Usage
 
@@ -30,6 +28,9 @@
 
 ```js
 npm i didyoumean3
+
+// or
+yarn add didyoumean3
 ```
 
 ### use case
@@ -37,9 +38,9 @@ npm i didyoumean3
 - **base use**
 
 ```js
-import didyoumean3 from 'didyoumean3'
+import { didyoumean3 } from 'didyoumean3'
 // or
-const { didyoumean3 } = require('didyoumean3');
+const { default: didyoumean3 } = require('didyoumean3');
 
 let input = 'insargrm'
 let list = [
@@ -47,10 +48,9 @@ let list = [
 ]
 
 console.log(didyoumean3(input, list));
-
-// will output:
+// will print:
 // {
-//   winner: 'instagram',
+//   winner: 'instagram', // 🔥 This is the best match, our winner！
 //   matched: [
 //     {
 //       score: 8,
@@ -132,15 +132,13 @@ expect(
 ## benchmark
 
 ```js
-didyoumean x 194,593 ops/sec ±1.07% (84 runs sampled)
-didyoumean2 x 311,318 ops/sec ±0.63% (90 runs sampled)
-didyoumean3 x 510,067 ops/sec ±0.48% (84 runs sampled)
-Fastest is didyoumean3-leven
+didyoumean x 168,623 ops/sec ±0.68% (90 runs sampled)
+didyoumean2 x 235,201 ops/sec ±0.51% (92 runs sampled)
+didyoumean3 x 398,555 ops/sec ±0.81% (91 runs sampled)
+Fastest is didyoumean3
 ```
 
 ## contributors
-
-nobody now.
 
 > Both issure and pr are welcome!
 

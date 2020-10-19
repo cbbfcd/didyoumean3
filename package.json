@@ -1,9 +1,9 @@
 {
-  "version": "1.2.3",
+  "version": "1.2.4",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "description": "🚀 the super fast and easy didyoumean which use dice-coefficient and levenshtein",
+  "description": "🚀 The fastest and easiest「didyoumean」in the universe via levenshtein algorithm",
   "repository": {
     "url": "https://github.com/cbbfcd/didyoumean3",
     "type": "github"
@@ -56,11 +56,12 @@
     "@types/jest": "^25.1.0",
     "benchmark": "^2.1.4",
     "didyoumean": "^1.2.1",
-    "didyoumean2": "^3.1.2",
+    "didyoumean2": "^4.1.0",
     "husky": "^4.0.6",
     "simple-file-size": "^1.0.6",
-    "tsdx": "^0.12.3",
+    "tsdx": "^0.14.1",
     "tslib": "^1.10.0",
-    "typescript": "^3.7.4"
+    "typescript": "^4.0.3"
   }
 }
+

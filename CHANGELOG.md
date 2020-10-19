@@ -1,6 +1,12 @@
 # changelog
 
+#### v-1.2.4
+
+1. upgrade some depencies
+2. update the docs
+
 #### v-1.2.0
+
 1. delete dice-coefficient algorithm, more small more faster.
 
 #### v-1.1.4
