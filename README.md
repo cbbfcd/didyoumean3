@@ -15,12 +15,12 @@
 
 ## Features
 
-- Built-in fastest levenshtein algorithm
-- Support custom return results
-- Typescript
-- Super fast
-- More flexible configuration
-- Super small (production.min.js < 2kb) and tree shaking! [more info](https://bundlephobia.com/result?p=didyoumean3@1.2.0)
+- [x] Via fastest levenshtein algorithm
+- [x] Custom return results
+- [x] Typescript Support
+- [x] Super fast 🚀
+- [x] More flexible configuration
+- [x] Super small and tree shaking! [more info](https://bundlephobia.com/result?p=didyoumean3@1.2.0)
 
 ## Usage
 
